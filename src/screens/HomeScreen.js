@@ -11,6 +11,9 @@ import logger from 'use-reducer-logger';
 import { Helmet } from 'react-helmet-async';
 import { Store } from '../Store';
 import { useNavigate } from 'react-router-dom';
+import CheckoutSteps from '../component/CheckoutSteps';
+import { Link } from 'react-router-dom';
+import { Badge } from 'react-bootstrap';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,7 +31,7 @@ const reducer = (state, action) => {
 function HomeScreen() {
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo } = state;
+  const { cart, userInfo } = state;
   console.log(state, 'state');
   const [{ loading, error, products }, dispatch] = useReducer(logger(reducer), {
     products: [],
@@ -62,10 +65,28 @@ function HomeScreen() {
   }, []);
   return (
     <div>
+      <CheckoutSteps step1 step2></CheckoutSteps>
       <Helmet>
         <title>Booker App</title>
       </Helmet>
-      <h1>List of Products</h1>
+      <div>
+        <h1>List of Products</h1>{' '}
+      </div>
+      <div className="topnav">
+        <div className="topnav-right">
+          <Link to="/cart" className="nav-link">
+            View Cart
+            {cart.cartItems.length > 0 && (
+              <Badge pill bg="danger">
+                {cart.cartItems.reduce(
+                  (a, c) => Number(a) + Number(c.quantity),
+                  0
+                )}
+              </Badge>
+            )}
+          </Link>
+        </div>
+      </div>
       <Card className="card-prod">
         <Card.Body>
           <Row>

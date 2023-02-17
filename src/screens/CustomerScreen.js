@@ -50,7 +50,7 @@ function CustomerScreen() {
   }, []);
   return (
     <div>
-      <CheckoutSteps step1 step2></CheckoutSteps>
+      <CheckoutSteps step1></CheckoutSteps>
       <Helmet>
         <title>Customer Information</title>
       </Helmet>
